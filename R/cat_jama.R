@@ -1,6 +1,6 @@
-#' Default summary for a Categorical Row
+#' JAMA-style summary for a Categorical Row
 #' 
-#' Summarizes a categorical row using counts and column proportions.
+#' Summarizes a categorical row using column percentages and the total number in each cell divided by the column total. This is the style used by the Journal of the American Medical Association.
 #' @param dt the name of the dataframe object.
 #' @param ... Additional arguments supplied within the package row functions.
 #' @return A dataframe with summary statistics for a categorical variable.
@@ -16,7 +16,7 @@
 #' @keywords tangram.pipe
 #' @export
 
-cat_default <- function(dt, ...){
+cat_jama <- function(dt, ...){
   dots <- list(...)
   rowlabel <- dots$rowlabel
   missing <- dots$missing
@@ -37,6 +37,11 @@ cat_default <- function(dt, ...){
     cbind(Overall=dt %>%
             table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
             rowSums())
+  
+  total.ct <- rep(colSums(ct), nrow(ct)) %>%
+    matrix(ncol = nrow(ct)) %>%
+    t()
+  
   prop <- dt %>%
     table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
     prop.table(margin=2) %>%
@@ -45,21 +50,24 @@ cat_default <- function(dt, ...){
             table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
             prop.table() %>%
             rowSums())
-
+  
+  prop <- prop * 100
+  
   cols <- unlist(dimnames(prop)[2])
-  out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames = list(NULL,cols)) %>%
+  out <- matrix(paste0(sprintf(rnd, prop), " (", sprintf("%1.0f/%1.0f", ct, total.ct), ")"), 
+                nrow=nrow(prop), dimnames = list(NULL,cols)) %>%
     as.data.frame() 
-
+  
   out <- cbind(dimnames(prop)[1], out)
-
+  
   row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
   out <- rbind(row1, out)
-
+  
   if (missing == TRUE){
     out[is.na(out[,1]),1] <- "Missing"
-    }
+  }
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
-  out$Measure[1] <- "Col. Prop. (N)"
+  out$Measure[1] <- "Pct. (n/N)"
   colnames(out)[1] <- "Variable"
   if (nocols == TRUE){
     out <- out[,-c(3,4)]

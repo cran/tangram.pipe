@@ -9,8 +9,8 @@ num_row(
   row_var,
   col_var = NULL,
   newdata = FALSE,
-  rowlabels = NULL,
-  summary = num_default,
+  rowlabel = NULL,
+  summary = NULL,
   missing = NULL,
   overall = NULL,
   comparison = NULL,
@@ -18,23 +18,23 @@ num_row(
 )
 }
 \arguments{
-\item{list_obj}{the name of the tbl_start object previously initialized.}
+\item{list_obj}{the name of the \code{tbl_start} object previously initialized.}
 
 \item{row_var}{the name of the variable to be used in the rows.}
 
-\item{col_var}{the variable to be used in the table columns. Default is from initialized tbl_start object.}
+\item{col_var}{the variable to be used in the table columns. Default is from initialized \code{tbl_start} object.}
 
-\item{newdata}{enter new dataset name if different from that initialized in tbl_start.}
+\item{newdata}{enter new dataset name if different from that initialized in \code{tbl_start}.}
 
-\item{rowlabels}{the label for the table row name, if different from row_var.}
+\item{rowlabel}{the label for the table row name, if different from \code{row_var}.}
 
-\item{summary}{summary function for the data. Default will compute 5-number summary plus mean and standard deviation.}
+\item{summary}{summary function for the data, if different from the one supplied in \code{tbl_start}.}
 
 \item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
 
 \item{overall}{logical: if TRUE, an overall column is included.}
 
-\item{comparison}{the name of the comparison test to use, if different from that initialized in tbl_start.}
+\item{comparison}{the name of the comparison test to use, if different from that initialized in \code{tbl_start}.}
 
 \item{digits}{significant digits to use.}
 }
@@ -46,6 +46,6 @@ Adds in a numeric row to the table.
 }
 \examples{
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
-  num_row("Sepal.Length", rowlabels="Sepal Length")
+  num_row("Sepal.Length", rowlabel="Sepal Length")
 }
 \keyword{tangram.pipe}

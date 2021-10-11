@@ -1,15 +1,15 @@
 #' Categorical Row
 #'
 #' Adds in a categorical row to the table.
-#' @param list_obj the name of the tbl_start object previously initialized.
+#' @param list_obj the name of the `tbl_start` object previously initialized.
 #' @param row_var the name of the variable to be used in the rows.
-#' @param col_var the variable to be used in the table columns. Default is from initialized tbl_start object.
-#' @param newdata enter new dataset name if different from that initialized in tbl_start.
-#' @param rowlabels the label for the table row name, if different from row_var.
-#' @param summary summary function for the data. Default will compute proportion (N).
+#' @param col_var the variable to be used in the table columns. Default is from initialized `tbl_start` object.
+#' @param newdata enter new dataset name if different from that initialized in `tbl_start`.
+#' @param rowlabel the label for the table row name, if different from `row_var`.
+#' @param summary summary function for the data, if different from the one supplied in `tbl_start`.
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
-#' @param comparison the name of the comparison test to use, if different from that initialized in tbl_start.
+#' @param comparison the name of the comparison test to use, if different from that initialized in `tbl_start`.
 #' @param digits significant digits to use.
 #' @param indent number of spaces to indent category names.
 #' @return A list with the categorical row's table information added as a new element to `list_obj`.
@@ -18,7 +18,7 @@
 #' @examples 
 #' iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
 #' x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
-#'   cat_row("Stem.Size", rowlabels="Stem Size")
+#'   cat_row("Stem.Size", rowlabel="Stem Size")
 #' @export
 
 cat_row <- function(
@@ -26,14 +26,18 @@ cat_row <- function(
   , row_var
   , col_var=NULL
   , newdata=FALSE
-  , rowlabels=NULL
-  , summary=cat_default
+  , rowlabel=NULL
+  , summary=NULL
   , missing=NULL
   , overall=NULL
   , comparison=NULL  #Null or function
   , digits=2
   , indent=5
 ){
+  # Determine if row parameters override initialized defaults
+  if (is.null(summary)){
+    summary <- list_obj[["default_cat_summary"]]
+  }
   if (is.null(missing)){
     missing <- list_obj[["missing"]]
   }
@@ -47,6 +51,7 @@ cat_row <- function(
     }
   }
 
+  # Formatting row information
   if (is.null(col_var)){
     col_var <- list_obj[["col_var"]]
     num_col <- list_obj[['num_col']]
@@ -71,18 +76,18 @@ cat_row <- function(
       num_col <- 1
     }
   }
-  if (is.null(rowlabels)){
+  if (is.null(rowlabel)){
     if (is.null(dim(data))) {
       if  (!is.null(attr(data, "label"))){
-        rowlabels <- attr(data, "label")
+        rowlabel <- attr(data, "label")
       } else {
-        rowlabels <- row_var
+        rowlabel <- row_var
       }
     } else {
       if (!is.null(attr(data[,1], "label"))) {
-        rowlabels <- attr(data[,1], "label")
+        rowlabel <- attr(data[,1], "label")
       } else {
-        rowlabels <- row_var
+        rowlabel <- row_var
       }
     }
   }
@@ -94,7 +99,7 @@ cat_row <- function(
   #Default summary function will take % (N)
 
   #Calculations
-  cat_out <- summary(data, rowlabels, missing, digits)
+  cat_out <- summary(data, rowlabel = rowlabel, missing = missing, digits = digits)
   if (overall == FALSE){
     cat_out <- cat_out[,-ncol(cat_out)]
   }

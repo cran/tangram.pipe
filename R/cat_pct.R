@@ -1,6 +1,6 @@
-#' Default summary for a Categorical Row
+#' Percentage summary for a Categorical Row
 #' 
-#' Summarizes a categorical row using counts and column proportions.
+#' Summarizes a categorical row using counts and column percentages.
 #' @param dt the name of the dataframe object.
 #' @param ... Additional arguments supplied within the package row functions.
 #' @return A dataframe with summary statistics for a categorical variable.
@@ -16,7 +16,7 @@
 #' @keywords tangram.pipe
 #' @export
 
-cat_default <- function(dt, ...){
+cat_pct <- function(dt, ...){
   dots <- list(...)
   rowlabel <- dots$rowlabel
   missing <- dots$missing
@@ -45,21 +45,24 @@ cat_default <- function(dt, ...){
             table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
             prop.table() %>%
             rowSums())
-
+  
+  prop <- prop * 100
+  
   cols <- unlist(dimnames(prop)[2])
-  out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames = list(NULL,cols)) %>%
+  out <- matrix(paste0(sprintf(rnd, prop), "% (", ct, ")"), 
+                nrow=nrow(prop), dimnames = list(NULL,cols)) %>%
     as.data.frame() 
-
+  
   out <- cbind(dimnames(prop)[1], out)
-
+  
   row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
   out <- rbind(row1, out)
-
+  
   if (missing == TRUE){
     out[is.na(out[,1]),1] <- "Missing"
-    }
+  }
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
-  out$Measure[1] <- "Col. Prop. (N)"
+  out$Measure[1] <- "Col. Pct. (N)"
   colnames(out)[1] <- "Variable"
   if (nocols == TRUE){
     out <- out[,-c(3,4)]

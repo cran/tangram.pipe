@@ -2,25 +2,33 @@
 % Please edit documentation in R/binary_default.R
 \name{binary_default}
 \alias{binary_default}
-\title{Summary for a Binary Row}
+\title{Default summary for a Binary Row}
 \usage{
-binary_default(dt, reference, rowlabels, missing, digits)
+binary_default(dt, ...)
 }
 \arguments{
 \item{dt}{the name of the dataframe object.}
 
-\item{reference}{the name of the row category to use as the reference. Default will use alphabetical first category.}
-
-\item{rowlabels}{the label for the table row name, if different from row_var.}
-
-\item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
-
-\item{digits}{significant digits to use.}
+\item{...}{Additional arguments supplied within the package row functions.}
 }
 \value{
 A dataframe with summary statistics for a binary variable.
 }
 \description{
 Summarizes a binary row using counts and column proportions.
+}
+\details{
+This is an internal function of \code{tangram.pipe}. Additional arguments
+should be supplied for this function to work properly.
+
+\code{reference} : the name of the row category to use as the reference. Default will use alphabetical first category
+
+\code{rowlabel} : the label for the table row name, if different from row_var.
+
+\code{compact} : if TRUE, data displayed in one row.
+
+\code{missing} : if TRUE, missing data is considered; FALSE only uses complete cases.
+
+\code{digits} : significant digits to use.
 }
 \keyword{tangram.pipe}
