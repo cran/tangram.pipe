@@ -1,6 +1,6 @@
-#' Percentage summary for a Binary Row
+#' Count summary for a Binary Row
 #' 
-#' Summarizes a binary row using counts and column percentages.
+#' Summarizes a binary row using counts.
 #' @param dt the name of the dataframe object.
 #' @param ... Additional arguments supplied within the package row functions.
 #' @return A dataframe with summary statistics for a binary variable.
@@ -16,12 +16,12 @@
 #' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
 #' 
 #' `digits` : significant digits to use.
-#' @seealso Possible summary functions for binary data:\link[tangram.pipe]{binary_default}, \link[tangram.pipe]{binary_count}, \link[tangram.pipe]{binary_jama}
+#' @seealso Possible summary functions for binary data:\link[tangram.pipe]{binary_default}, \link[tangram.pipe]{binary_pct}, \link[tangram.pipe]{binary_jama}
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @export
 
-binary_pct <- function(dt, ...){
+binary_count <- function(dt, ...){
   dots <- list(...)
   reference <- dots$reference
   rowlabel <- dots$rowlabel
@@ -44,20 +44,10 @@ binary_pct <- function(dt, ...){
     cbind(Overall=dt %>%
             table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
             rowSums())
-  prop <- dt %>%
-    table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-    prop.table(margin=2) %>%
-    as.matrix() %>%
-    cbind(Overall=dt %>%
-            table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-            prop.table() %>%
-            rowSums())
   
-  prop <- prop * 100
-  
-  out <- matrix(paste0(sprintf(rnd, prop), "% (", ct, ")"), nrow=nrow(prop), dimnames=dimnames(prop)) %>%
+  out <- ct %>%
     as.data.frame()
-  out <- cbind(dimnames(prop)[[1]], out)
+  out <- cbind(dimnames(ct)[[1]], out)
   rownames(out) <- NULL
   out[is.na(out)] <- "NA."
   row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
@@ -71,11 +61,11 @@ binary_pct <- function(dt, ...){
   }
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
   if (compact == TRUE){
-    out$Measure[2] <- "Col. Pct. (N)"
+    out$Measure[2] <- "N"
     out[2,1] <- paste0(out[1,1], ": ", out[2,1])
     out <- out[-1,]
   } else {
-    out$Measure[1] <- "Col. Pct. (N)"
+    out$Measure[1] <- "N"
   }
   colnames(out)[1] <- "Variable"
   

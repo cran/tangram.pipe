@@ -1,6 +1,6 @@
 Package: tangram.pipe
 Title: Row-by-Row Table Building
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: 
     c(person(given = "Andrew",
            family = "Guide",
@@ -23,9 +23,9 @@ VignetteBuilder: knitr
 URL: https://github.com/thomasgstewart/tangram.pipe
 BugReports: https://github.com/thomasgstewart/tangram.pipe/issues
 NeedsCompilation: no
-Packaged: 2021-10-11 21:37:32 UTC; guidea
+Packaged: 2022-04-20 16:46:36 UTC; guidea
 Author: Andrew Guide [aut, cre],
   Thomas Stewart [aut]
 Maintainer: Andrew Guide <andrew.guide@vumc.org>
 Repository: CRAN
-Date/Publication: 2021-10-11 22:00:02 UTC
+Date/Publication: 2022-04-20 17:30:02 UTC

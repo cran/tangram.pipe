@@ -1,6 +1,6 @@
 #' Output Table
 #'
-#' Produces a finalized table.
+#' Produces a finalized `tangram.pipe` table.
 #' @param list_obj the name of the tbl_start object previously initialized.
 #' @return A tangram.pipe class object with the finalized table as a dataframe added as the most recent element of `list_obj`.
 #' @keywords tangram.pipe
@@ -44,8 +44,5 @@ tbl_out <- function(
   } else {
     out_tbl <- data.frame()
   }
-  list_obj[[length(list_obj) + 1]] <- out_tbl
-  class(list_obj[[length(list_obj)]]) <- c("data.frame", "out")
-  class(list_obj) <- "tangram.pipe"
-  return(list_obj)
+  return(out_tbl)
 }

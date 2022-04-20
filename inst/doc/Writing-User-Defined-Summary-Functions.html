@@ -145,7 +145,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>The package <code>tangram.pipe</code> can be used to iteratively build a table which allows each row to be uniquely customized. All the possible changes can be seen in the package’s main vignette, “Customizeable Table Building with Tangram Pipe”. One main package feature which is not discussed there is that a user may write their own summary function for the table rows. By default, the package will use default summary functions to calculate a 5-number summary, plus the mean and standard deviation, for numeric data; column-wise proportions are generated for categorical and binary rows. Currently, there are a total of four prewritten numeric summary functions, as well as three prewritten functions for both categorical and binary data. However, it is often the case that a user wants to have increased flexibility and format <code>tangram.pipe</code> output tables in a different way than provided by the currently-available options. This document is intended to walk a user through how to write a custom-made summary function, as well as some suggested inputs and outputs to include for user-defined summary functions using <code>tangram.pipe</code>.</p>
+<p>The package <code>tangram.pipe</code> can be used to iteratively build a table which allows each row to be uniquely customized. All the possible changes can be seen in the package’s main vignette, “Customizeable Table Building with Tangram Pipe”. One main package feature which is not discussed there is that a user may write their own summary function for the table rows. By default, the package will use default summary functions to calculate a 5-number summary, plus the mean and standard deviation, for numeric data; column-wise proportions are generated for categorical and binary rows. Currently, there are a total of five prewritten numeric summary functions, as well as four prewritten functions for both categorical and binary data. However, it is often the case that a user wants to have increased flexibility and format <code>tangram.pipe</code> output tables in a different way than provided by the currently-available options. This document is intended to walk a user through how to write a custom-made summary function, as well as some suggested inputs and outputs to include for user-defined summary functions using <code>tangram.pipe</code>.</p>
 </div>
 <div id="function-inputs" class="section level1">
 <h1>Function Inputs</h1>
@@ -487,16 +487,16 @@ Large
 <td style="text-align:left;">
 </td>
 <td style="text-align:left;">
+0.36 (18)
+</td>
+<td style="text-align:left;">
+0.26 (13)
+</td>
+<td style="text-align:left;">
 0.22 (11)
 </td>
 <td style="text-align:left;">
-0.24 (12)
-</td>
-<td style="text-align:left;">
-0.18 (9)
-</td>
-<td style="text-align:left;">
-0.21 (32)
+0.28 (42)
 </td>
 </tr>
 <tr>
@@ -506,16 +506,16 @@ Medium
 <td style="text-align:left;">
 </td>
 <td style="text-align:left;">
-0.52 (26)
-</td>
-<td style="text-align:left;">
 0.44 (22)
 </td>
 <td style="text-align:left;">
-0.49 (24)
+0.46 (23)
 </td>
 <td style="text-align:left;">
-0.48 (72)
+0.59 (29)
+</td>
+<td style="text-align:left;">
+0.50 (74)
 </td>
 </tr>
 <tr>
@@ -525,16 +525,16 @@ Small
 <td style="text-align:left;">
 </td>
 <td style="text-align:left;">
-0.26 (13)
+0.20 (10)
 </td>
 <td style="text-align:left;">
-0.32 (16)
+0.28 (14)
 </td>
 <td style="text-align:left;">
-0.33 (16)
+0.18 (9)
 </td>
 <td style="text-align:left;">
-0.30 (45)
+0.22 (33)
 </td>
 </tr>
 </tbody>
@@ -551,6 +551,15 @@ Small
 </ol>
 <p>Both of the above variables should be included in the body of the user-defined function so that each is dealt with accordingly. As with numerical and categorical data, you are not required to account for these arguments in the body of your function, but excluding them will result in the <code>reference</code> and <code>compact</code> arguments defined in <code>binary_row</code> to not be implemented in your table output object.</p>
 <p>Since writing functions for binary data can be somewhat more complicated, remember that any data used in a binary row can also be substituted into a categorical defined row instead.</p>
+</div>
+<div id="additional-note-regarding-categorical-rows" class="section level1">
+<h1>Additional note regarding categorical rows</h1>
+<p>As of <code>tangram.pipe</code> version 1.1.1 (April 2022), categorical rows can now be sorted based on a column category label. While the default categorical summary functions, as well as any custom functions, do not require any sorting argument, if you want to sort your categorical row in your table, the following two arguments will allow you to do so.</p>
+<ol style="list-style-type: decimal">
+<li><p><code>ordering</code>: The method for ordering the row variable. It is recommended that argument accepts values that will determine what type of sorting to do. The default summary functions use <code>c(&quot;ascending&quot;, &quot;descending&quot;)</code> as acceptable arguments, but you may choose whatever types of sorting and allowable names as you wish.</p></li>
+<li><p><code>sortcol</code>. The category name to sort on. The default packages accept specific names of column categories on which to do the sort.</p></li>
+</ol>
+<p>As with binary summary functions, these extra arguments are not necessary in order for the package to work; they only need to be accounted for if you want to sort your row variable. <code>cat_row</code> assumes <code>NULL</code> values for these variables by default.</p>
 </div>
 <div id="user-defined-comparison-tests" class="section level1">
 <h1>User-Defined Comparison Tests</h1>

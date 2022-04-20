@@ -1,6 +1,6 @@
 #' Numeric Row
 #'
-#' Adds in a numeric row to the table.
+#' Adds in a numeric row to a `tangram.pipe` table.
 #' @param list_obj the name of the `tbl_start` object previously initialized.
 #' @param row_var the name of the variable to be used in the rows.
 #' @param col_var the variable to be used in the table columns. Default is from initialized `tbl_start` object.
@@ -12,6 +12,9 @@
 #' @param comparison the name of the comparison test to use, if different from that initialized in `tbl_start`.
 #' @param digits significant digits to use.
 #' @return A list with the numeric row's table information added as a new element to `list_obj`.
+#' @seealso Possible summary functions for numeric data: \link[tangram.pipe]{num_default}, \link[tangram.pipe]{num_mean_sd}, \link[tangram.pipe]{num_medianiqr}, \link[tangram.pipe]{num_minmax}, \link[tangram.pipe]{num_date}
+#' @seealso Other related row-building functions: \link[tangram.pipe]{cat_row}, \link[tangram.pipe]{binary_row}, \link[tangram.pipe]{n_row}, \link[tangram.pipe]{empty_row}
+#' @seealso Starting a `tangram.pipe` table: \link[tangram.pipe]{tbl_start}
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 
@@ -53,14 +56,14 @@ num_row <- function(
     col_var <- list_obj[["col_var"]]
     num_col <- list_obj[['num_col']]
   } else {
-    if (class(newdata) == 'logical'){
+    if (inherits(newdata, 'logical')){
       num_col <- list_obj[['data']][col_var] %>%
         filter(!is.na(list_obj[['data']][col_var])) %>%
         unique() %>%
         nrow()
     }
   }
-  if (class(newdata) == 'logical'){
+  if (inherits(newdata, 'logical')){
     data <- list_obj[['data']][,c(row_var, col_var)]
   } else {
     data <- newdata[,c(row_var, col_var)]
@@ -99,7 +102,7 @@ num_row <- function(
     num_out <- num_out[,-ncol(num_out)]
   }
 
-  if (class(comparison) == "function" & num_col > 1){
+  if (inherits(comparison, "function") & num_col > 1){
     comp <- comparison(data, num_col, row_var, digits)
     for (i in 1:ncol(comp)){
       num_out$compare <- ""

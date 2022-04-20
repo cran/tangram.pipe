@@ -12,6 +12,7 @@
 #' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
 #' 
 #' `digits` : significant digits to use.
+#' @seealso Additional prewritten summary functions for numeric data: \link[tangram.pipe]{num_default}, \link[tangram.pipe]{num_medianiqr}, \link[tangram.pipe]{num_minmax}, \link[tangram.pipe]{num_date}
 #' @import dplyr
 #' @importFrom  stats complete.cases
 #' @importFrom stats aggregate
@@ -60,7 +61,7 @@ num_mean_sd <- function(dt, ...){
                            " (",
                            sprintf(rnd, sd(dt[,1])), 
                            ")")
-  out <- data.frame(Measure="Mean (Std. Dev.)", out)
+  out <- data.frame(Measure="Mean (Std. Dev.)", out, check.names = FALSE)
   rownames(out) <- NULL
   
   if (missing == TRUE){

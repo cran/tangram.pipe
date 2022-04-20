@@ -1,6 +1,6 @@
-#' Percentage summary for a Categorical Row
+#' Count summary for a Categorical Row
 #' 
-#' Summarizes a categorical row using counts and column percentages.
+#' Summarizes a categorical row using counts.
 #' @param dt the name of the dataframe object.
 #' @param ... Additional arguments supplied within the package row functions.
 #' @return A dataframe with summary statistics for a categorical variable.
@@ -16,12 +16,12 @@
 #' `sortvar` : Column to sort row on. Requires `ordering` to be `ascending` or `descending`. By default, will sort based on overall statistics.
 #' 
 #' `digits` : significant digits to use.
-#' @seealso Additional prewritten summary functions for categorical data: \link[tangram.pipe]{cat_default}, \link[tangram.pipe]{cat_count}, \link[tangram.pipe]{cat_jama}
+#' @seealso Additional prewritten summary functions for categorical data: \link[tangram.pipe]{cat_default}, \link[tangram.pipe]{cat_pct}, \link[tangram.pipe]{cat_jama}
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @export
 
-cat_pct <- function(dt, ...){
+cat_count <- function(dt, ...){
   dots <- list(...)
   rowlabel <- dots$rowlabel
   missing <- dots$missing
@@ -54,36 +54,20 @@ cat_pct <- function(dt, ...){
             rowSums())
   if (ordering == "ascending") {ct <- ct[order(ct[,sortcol], decreasing = FALSE),]}
   if (ordering == "descending") {ct <- ct[order(ct[,sortcol], decreasing = TRUE),]}
-  prop <- dt %>%
-    table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-    prop.table(margin=2) %>%
-    as.matrix() %>%
-    cbind(Overall=dt %>%
-            table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-            prop.table() %>%
-            rowSums())
-  if (ordering == "ascending") {prop <- prop[order(prop[,sortcol], decreasing = FALSE),]}
-  if (ordering == "descending") {prop <- prop[order(prop[,sortcol], decreasing = TRUE),]}
-  
-  prop <- prop * 100
-  
-  cols <- unlist(dimnames(prop)[2])
-  out <- matrix(paste0(sprintf(rnd, prop), "% (", ct, ")"), 
-                nrow=nrow(prop), dimnames = list(NULL,cols)) %>%
+
+  out <- ct %>%
     as.data.frame() 
-  
-  out <- cbind(dimnames(prop)[1], out)
-  
+  out <- cbind(dimnames(ct)[1], out)
   row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
   out <- rbind(row1, out)
+  rownames(out) <- NULL
   
   if (missing == TRUE){
     out[is.na(out[,1]),1] <- "Missing"
     out <- rbind(out[out[,1] != "Missing",], out[out[,1] == "Missing",])
-    rownames(out) <- NULL
   }
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
-  out$Measure[1] <- "Col. Pct. (N)"
+  out$Measure[1] <- "N"
   colnames(out)[1] <- "Variable"
   if (nocols == TRUE){
     out <- out[,-c(3,4)]

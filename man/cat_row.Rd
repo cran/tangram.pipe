@@ -15,6 +15,8 @@ cat_row(
   overall = NULL,
   comparison = NULL,
   digits = 2,
+  ordering = "none",
+  sortcol = NULL,
   indent = 5
 )
 }
@@ -39,17 +41,28 @@ cat_row(
 
 \item{digits}{significant digits to use.}
 
+\item{ordering}{If \code{ascending}, will sort by overall ascending order; if \code{descending}, will sort by overall descending order. Default is no row sorting.}
+
+\item{sortcol}{Column to sort row on. Requires \code{ordering} to be \code{ascending} or \code{descending}. By default, will sort based on overall statistics.}
+
 \item{indent}{number of spaces to indent category names.}
 }
 \value{
 A list with the categorical row's table information added as a new element to \code{list_obj}.
 }
 \description{
-Adds in a categorical row to the table.
+Adds in a categorical row to a \code{tangram.pipe} table.
 }
 \examples{
 iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
   cat_row("Stem.Size", rowlabel="Stem Size")
+}
+\seealso{
+Possible summary functions for categorical data:\link[tangram.pipe]{cat_default}, \link[tangram.pipe]{cat_pct}, \link[tangram.pipe]{cat_count}, \link[tangram.pipe]{cat_jama}
+
+Other related row-building functions: \link[tangram.pipe]{num_row}, \link[tangram.pipe]{binary_row}, \link[tangram.pipe]{n_row}, \link[tangram.pipe]{empty_row}
+
+Starting a \code{tangram.pipe} table: \link[tangram.pipe]{tbl_start}
 }
 \keyword{tangram.pipe}

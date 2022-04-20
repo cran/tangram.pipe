@@ -12,6 +12,7 @@
 #' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
 #' 
 #' `digits` : significant digits to use.
+#' @seealso Additional prewritten summary functions for numeric data: \link[tangram.pipe]{num_default}, \link[tangram.pipe]{num_mean_sd}, \link[tangram.pipe]{num_minmax}, \link[tangram.pipe]{num_date}
 #' @import dplyr
 #' @importFrom  stats complete.cases
 #' @importFrom stats aggregate
@@ -66,7 +67,7 @@ num_medianiqr <- function(dt, ...){
                            "\u2013", 
                            sprintf(rnd, quantile(dt[,1], probs = 0.75)),
                            ")")
-  out <- data.frame(Measure="Median (IQR)", out)
+  out <- data.frame(Measure="Median (IQR)", out, check.names = FALSE)
   rownames(out) <- NULL
   
   if (missing == TRUE){

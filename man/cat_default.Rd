@@ -25,6 +25,13 @@ should be supplied for this function to work properly.
 
 \code{missing} : if TRUE, missing data is considered; FALSE only uses complete cases.
 
+\code{ordering} : Sorts the row variable: options are "ascending" or "descending"
+
+\code{sortvar} : Column to sort row on. Requires \code{ordering} to be \code{ascending} or \code{descending}. By default, will sort based on overall statistics.
+
 \code{digits} : significant digits to use.
+}
+\seealso{
+Additional prewritten summary functions for categorical data: \link[tangram.pipe]{cat_pct}, \link[tangram.pipe]{cat_count}, \link[tangram.pipe]{cat_jama}
 }
 \keyword{tangram.pipe}

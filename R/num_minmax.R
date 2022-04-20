@@ -12,6 +12,7 @@
 #' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
 #' 
 #' `digits` : significant digits to use.
+#' @seealso Additional prewritten summary functions for numeric data: \link[tangram.pipe]{num_default}, \link[tangram.pipe]{num_mean_sd}, \link[tangram.pipe]{num_medianiqr}, \link[tangram.pipe]{num_date}
 #' @import dplyr
 #' @importFrom  stats complete.cases
 #' @importFrom stats aggregate
@@ -59,7 +60,7 @@ num_minmax <- function(dt, ...){
   out$Overall[1] <- paste0(sprintf(rnd, min(dt[,1])), 
                            "\u2013", 
                            sprintf(rnd,max(dt[,1])))
-  out <- data.frame(Measure="Min \u2013 Max", out)
+  out <- data.frame(Measure="Min \u2013 Max", out, check.names = FALSE)
   rownames(out) <- NULL
   
   if (missing == TRUE){
