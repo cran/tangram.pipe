@@ -37,5 +37,5 @@ iris %>%
   kable_styling(c("striped", "bordered"))
 
 ## ---- eval = FALSE------------------------------------------------------------
-#  binary_default(dt, reference, rowlabel, compact, missing, digits)
+#  binary_default(dt, reference, ref.label, rowlabel, compact, missing, digits)
 

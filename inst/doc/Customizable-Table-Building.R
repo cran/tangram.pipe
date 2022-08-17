@@ -25,6 +25,7 @@ tbl1 <- tbl_start(data=iris,
                   missing=FALSE, 
                   overall=TRUE, 
                   comparison=FALSE,
+                  digits = 2,
                   default_num_summary = num_default,
                   default_cat_summary = cat_default,
                   default_binary_summary = binary_default)

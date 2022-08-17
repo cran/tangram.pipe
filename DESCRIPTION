@@ -1,6 +1,6 @@
 Package: tangram.pipe
 Title: Row-by-Row Table Building
-Version: 1.1.1
+Version: 1.1.2
 Authors@R: 
     c(person(given = "Andrew",
            family = "Guide",
@@ -16,16 +16,16 @@ Description: Builds tables with customizable rows. Users can specify the type
              columns.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.1.1.9001
+RoxygenNote: 7.2.1
 Depends: dplyr
 Suggests: knitr, kableExtra, rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/thomasgstewart/tangram.pipe
 BugReports: https://github.com/thomasgstewart/tangram.pipe/issues
 NeedsCompilation: no
-Packaged: 2022-04-20 16:46:36 UTC; guidea
+Packaged: 2022-08-17 15:50:08 UTC; guidea
 Author: Andrew Guide [aut, cre],
   Thomas Stewart [aut]
 Maintainer: Andrew Guide <andrew.guide@vumc.org>
 Repository: CRAN
-Date/Publication: 2022-04-20 17:30:02 UTC
+Date/Publication: 2022-08-17 17:10:02 UTC
